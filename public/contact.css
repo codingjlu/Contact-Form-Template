@@ -1,0 +1,423 @@
+/**
+* Scroll down to make the blobs move (I turned it off because it gives me a headache)
+*/
+
+/*Our fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
+
+:root {
+  --theme-color: #000; /*The background-color*/
+}
+
+*, *::before, *::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; /*Saves the day*/
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--theme-color);
+  overflow: hidden; /*Or else the blobs might make a scrollbar*/
+  padding: 0;
+  margin: 0;
+}
+
+/*The form*/
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); /*Allows it to be completely centered on the y-axis. We don't want it on the x-axis though*/
+  background-color: white;
+  padding: 30px 40px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-image: url(/form-bg.svg); /*The light circle things*/
+  background-repeat: no-repeat;
+  background-size: 400px;
+  background-position: top right;
+  height: 300px;
+}
+
+/*Top text if screen is small enough*/
+.top-text {
+  display: none;
+}
+.top-text > h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+/*General input styling*/
+.typical-input, .typical-textarea {
+  font-size: 1.5rem;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1.5px solid #304f63;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: transparent;
+}
+.typical-textarea {
+  resize: none;
+  margin-bottom: 15px;
+}
+
+/*A custom scrollbar for the textarea overflow*/
+.typical-textarea::-webkit-scrollbar {
+  width: 7px;
+}
+.typical-textarea::-webkit-scrollbar-thumb {
+  background: #d1d1d1; 
+  border-radius: 7px;
+}
+.typical-textarea::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1; 
+}
+
+/*Make placeholder disappear on focus*/
+.typical-input:hover::-webkit-input-placeholder, .typical-textarea:hover::-webkit-input-placeholder {
+  opacity: 1;
+}
+.typical-input:hover::-moz-placeholder, .typical-textarea:hover::-moz-placeholder {
+  opacity: 1;
+}
+.typical-input:hover:-ms-input-placeholder, .typical-textarea:hover:-ms-input-placeholder {
+  opacity: 1;
+}
+.typical-input:hover::-ms-input-placeholder, .typical-textarea:hover::-ms-input-placeholder {
+  opacity: 1;
+}
+.typical-input:hover::placeholder, .typical-textarea:hover::placeholder {
+  opacity: 1;
+}
+.typical-input::-webkit-input-placeholder, .typical-textarea::-webkit-input-placeholder {
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.typical-input::-moz-placeholder, .typical-textarea::-moz-placeholder {
+  opacity: 0.7;
+  -moz-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.typical-input:-ms-input-placeholder, .typical-textarea:-ms-input-placeholder {
+  opacity: 0.7;
+  -ms-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.typical-input::-ms-input-placeholder, .typical-textarea::-ms-input-placeholder {
+  opacity: 0.7;
+  -ms-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.typical-input::placeholder, .typical-textarea::placeholder {
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.typical-input:focus::-webkit-input-placeholder, .typical-textarea:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+.typical-input:focus::-moz-placeholder, .typical-textarea:focus::-moz-placeholder {
+  opacity: 0;
+}
+.typical-input:focus:-ms-input-placeholder, .typical-textarea:focus:-ms-input-placeholder {
+  opacity: 0;
+}
+.typical-input:focus::-ms-input-placeholder, .typical-textarea:focus::-ms-input-placeholder {
+  opacity: 0;
+}
+.typical-input:focus::placeholder, .typical-textarea:focus::placeholder {
+  opacity: 0;
+}
+.typical-input:focus, .typical-textarea:focus {
+  border-bottom: 2px solid #31729e;
+}
+
+/*Submit form button*/
+.submit {
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+  cursor: pointer;
+  background-color: #63b7d6;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 7px;
+  font-size: 1.2rem;
+  width: 100px;
+  outline: none;
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(40,211,255,1)), to(rgba(21,183,217,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(40,211,255,1) 0%, rgba(21,183,217,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(40,211,255,1) 0%, rgba(21,183,217,1) 100%);
+}
+/*We need a seperate span in the button so that it can shift left on hover*/
+.submit-text {
+  position: absolute !important;
+  left: 20px;
+  -webkit-transition: left 0.3s;
+  -o-transition: left 0.3s;
+  transition: left 0.3s;
+}
+/*The hidden arrow that appears on hover*/
+.submit > .submit-arrow {
+  position: absolute;
+  right: 10px;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: opacity 0.3s;
+  -o-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+/*Hover arrow effect*/
+.submit:hover > .submit-arrow {
+  opacity: 1;
+}
+.submit:hover > .submit-text {
+  left: 10px;
+}
+
+/*The blue stuff on the left*/
+.content-side-left {
+  top: 50%;
+  left: 50%;
+  height: 300px;
+  width: 363px;
+  z-index: 1;
+  -webkit-transform: translate(-100%, -50%);
+      -ms-transform: translate(-100%, -50%);
+          transform: translate(-100%, -50%);
+  position: fixed;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.content-side-left-text {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  line-height: 0.4; /* Make the text close to each other */
+}
+.content-side-left-text > h1 {
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 3rem;
+  text-align: center;
+}
+.content-side-left-text > p {
+  text-align: center;
+}
+
+/*The shadow for our box*/
+.contact-filler {
+  width: 726px;
+  height: 300px;
+  position: fixed;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  background-color: transparent;
+  -webkit-box-shadow: 0px 2px 12px 2px rgba(255,255,255,0.75);
+          box-shadow: 0px 2px 12px 2px rgba(255,255,255,0.75);
+  border-radius: 15px;
+}
+
+.content-side-left-content-bg {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #63b7d6; /* A fallback if gradients aren't supported */
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow: hidden;
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(14,118,145,1)), to(rgba(0,211,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(14,118,145,1) 0%, rgba(0,211,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(14,118,145,1) 0%, rgba(0,211,255,1) 100%);
+}
+
+/* The shape thing behind the blue box */
+.div-inner-content-side-left {
+  position: absolute;
+  height: 200%;
+  width: 200%;
+  left: -120%;
+  top: -120%;
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg); /* Make it horizantal */
+  background-color: rgba(255,255,255,0.10);
+}
+.div-inner-content-side-left:nth-child(2) {
+  -webkit-transform: translateX(80%) rotate(45deg);
+      -ms-transform: translateX(80%) rotate(45deg);
+          transform: translateX(80%) rotate(45deg);
+}
+
+/*Our blobs*/
+.blobs > div {
+  position: fixed;
+}
+/*Style each of our 4 blobs in the background*/
+.blobs > div:nth-child(1) {
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(121,9,107,1)), to(rgba(0,212,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(121,9,107,1) 0%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,107,1) 0%, rgba(0,212,255,1) 100%);
+  height: 270px;
+  width: 300px;
+  border-radius: 30% 70% 70% 30% / 38% 30% 70% 62%;
+  top: 30px;
+  left: 100px;
+  -webkit-animation: blob1 5s ease-in-out infinite alternate;
+          animation: blob1 5s ease-in-out infinite alternate; /* Yep, the blobs move! Remove this line to prevent that from happening (I personally would because it gets me a bit motion sick). */
+  -webkit-box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+          box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75); /* A glow for our blobs */
+}
+.blobs > div:nth-child(2) {
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(9,28,121,1)), to(rgba(0,212,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(9,28,121,1) 0%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,28,121,1) 0%, rgba(0,212,255,1) 100%);
+  height: 150px;
+  width: 200px;
+  border-radius: 29% 71% 26% 74% / 70% 61% 39% 30%;
+  right: 90px;
+  bottom: -50px;
+  -webkit-animation: blob2 5s ease-in-out infinite alternate;
+          animation: blob2 5s ease-in-out infinite alternate;
+  -webkit-box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+          box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+}
+.blobs > div:nth-child(3) {
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(9,19,121,1)), to(rgba(226,0,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(9,19,121,1) 0%, rgba(226,0,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,19,121,1) 0%, rgba(226,0,255,1) 100%);
+  height: 300px;
+  width: 350px;
+  border-radius: 78% 22% 25% 75% / 19% 27% 73% 81%;
+  left: 40%;
+  top: 60%;
+  -webkit-animation: blob3 5s ease-in-out infinite alternate;
+          animation: blob3 5s ease-in-out infinite alternate;
+  -webkit-box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+          box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+}
+.blobs > div:nth-child(4) {
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(99,9,121,1)), to(rgba(0,211,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(99,9,121,1) 0%, rgba(0,211,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(99,9,121,1) 0%, rgba(0,211,255,1) 100%);
+  height: 200px;
+  width: 150px;
+  border-radius: 23% 77% 66% 34% / 46% 65% 35% 54%;
+  top: 30px;
+  right: -50px;
+  -webkit-animation: blob4 5s ease-in-out infinite alternate;
+          animation: blob4 5s ease-in-out infinite alternate;
+  -webkit-box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+          box-shadow: 3px -1px 22px -2px rgba(255,255,255,0.75);
+}
+
+/*
+MAKE THE BLOBS MOVE!! Uncomment this and comment the plain text inside to activate. I personally get a headache, so I get rid of it.
+
+Now for the fun part - animating the blobs
+@keyframes blob1 {
+  Did you know that from is optional!?
+  to {
+    transform: translate(20px 5px) rotate(10deg); Make it spin and move
+    border-radius: 26% 74% 75% 25% / 29% 58% 42% 71%; Change the shape of our blob
+  }
+}
+And some more repetition stuff
+@keyframes blob2 {
+  to {
+    transform: translate(-10px -30px) rotate(7deg);
+    border-radius: 63% 37% 68% 32% / 60% 74% 26% 40%;
+  }
+}
+@keyframes blob3 {
+  to {
+    transform: translate(20px 10px) rotate(5deg);
+    border-radius: 63% 37% 68% 32% / 19% 31% 69% 81%;
+  }
+}
+@keyframes blob4 {
+  to {
+    transform: translate(-10px -5px) rotate(3deg);
+    border-radius: 15% 85% 68% 32% / 15% 70% 30% 85%;
+  }
+}
+*/
+
+/**
+* Responsive as promised!
+*/
+@media only screen and (max-width: 900px) {
+  /* We don't need our fake shadow anymore */
+  .contact-filler {
+    display: none;
+  }
+
+  /*Get rid of the blue block thing*/
+  .content-side-left {
+    display: none;
+  }
+
+  /*Reposition the form*/
+  .content {
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 2px 12px 2px rgba(255,255,255,0.75);
+            box-shadow: 0px 2px 12px 2px rgba(255,255,255,0.75);
+    height: auto; /*To account for the top text being displayed*/
+  }
+  /*Say contact on top of the form*/
+  .top-text {
+    display: block;
+  }
+
+  /*We don't want the blobs to eat each other up*/
+  .blobs > div:nth-child(2) {
+    display: none;
+  }
+}
+@media only screen and (max-width: 550px) {
+  /*Don't let the form get squashed*/
+  .content {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    top: 50%;
+  }
+
+  /* Again, we don't want the blobs to eat each other up */
+  .blobs > div:nth-child(4) {
+    display: none;
+  }
+}
+
+/**
+* AUTOGENERATED LINE - DO NOT DELETE
+* on4*&484P:84*Nt84$&*4n496tp
+*/

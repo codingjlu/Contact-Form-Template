@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Manage submissions | <%= name %>'s contact form</title>
+	<link rel="stylesheet" type="text/css" href="/admin.css" />
+	<link rel="stylesheet" type="text/css" href="/notifications.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+	<script src="/notifications.js">
+	</script>
+</head>
+
+<body>
+	<div class="content">
+    <form method="post" action="/logout">
+      <button class="logout" type="submit" title="Logout of admin">Log out</button>
+    </form>
+		<h1>Contact Form Submissions | <%= name %></h1>
+		<hr />
+		<table class="submissions">
+			<tr>
+				<th class="name-head">Name</th>
+				<th class="email-head">Email</th>
+				<th class="message-head">Message</th>
+        <th class="options"></th>
+			</tr>
+      <% if(all != null) {
+        all.reverse().forEach(item => { %>
+        <tr title="<%= item.val.time %>">
+				  <td class="name"><%- item.val.name %></td>
+				  <td class="email"><a class="email-link" target="_blank" href="mailto:<%- item.val.email %>"><%- item.val.email %></a></td>
+				  <td class="message"><%- item.val.message %></td>
+          <td class="options">
+            <div class="trash-can" data-submission="<%- item.key %>" title="Delete this submission"></div>
+          </td>
+			  </tr>
+      <% });
+      } else { %>
+      <tr>
+				<td class="no-subs" colspan="4">
+          <h3>No submissions yet ;)</h3>
+        </td>
+			</tr>
+      <% } %>
+		</table>
+    <a href="https://replit.com/@codingjlu" target="_blank">
+      <footer class="footer">
+        Powered by codingjlu
+      </footer>
+    </a>
+	</div>
+	<script src="/admin.js"></script>
+</body>
+
+</html>

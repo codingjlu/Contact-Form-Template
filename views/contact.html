@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact me | <%= name %></title>
+    <link rel="stylesheet" type="text/css" href="/contact.css" />
+    <link rel="stylesheet" type="text/css" href="/notifications.css" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/notifications.js"></script>
+  </head>
+  <body>
+    <!--Blobs in the background-->
+    <div class="blobs">
+      <!--Blobs-->
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!--Contact filler for shadow/glow-->
+    <div class="contact-filler"></div>
+
+    <!--Blue box to the left-->
+    <div class="content-side-left">
+      <div class="content-side-left-content-bg">
+        <div class="div-inner-content-side-left"></div>
+        <div class="div-inner-content-side-left"></div>
+      </div>
+      <div class="content-side-left-text">
+        <h1>Contact</h1>
+        <p><%= name %></p>
+      </div>
+    </div>
+    <!--Form-->
+    <div class="content">
+      <!--Hidden by default:-->
+      <div class="top-text">
+        <h1>Contact me</h1>
+      </div>
+
+      <div class="form">
+        <input type="email" placeholder="Enter your email..." class="email typical-input" maxlength="60" /><br/>
+        <input type="text" placeholder="Enter your name..." class="name typical-input" maxlength="50" /><br />
+        <textarea name="message" class="typical-textarea textarea message" placeholder="Your message..." maxlength="3000" ></textarea><br />
+        <button class="submit"><span class="submit-text">Submit</span>&nbsp;<span class="submit-arrow">&raquo;</span></button>
+      </div>
+    </div>
+    <script src="/contact.js"></script>
+  </body>
+</html>

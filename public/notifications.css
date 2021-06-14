@@ -1,0 +1,44 @@
+/**
+* Use with notifications.js
+*/
+
+/*Our notification general styles*/
+.notif {
+  padding: 10px;
+  border-radius: 5px;
+  color: #454545;
+  background-color: #b1cee0;
+  border: 2px solid #004169;
+  position: fixed;
+  top: 30px;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+  left: 50%;
+  display: none;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+/*The X button*/
+.notif > span {
+  cursor: pointer;
+  opacity: 0.8;
+  font-weight: bold;
+  color: black;
+}
+/*Make it obvious that the user is hovering*/
+.notif > span:hover {
+  opacity: 1;
+}
+
+/*Styling for notification types. Overrides regular notifications*/
+.notif-success {
+  border: 2px solid #226323;
+  color: #0e3d0f;
+  background-color: #bdd9bd;
+}
+.notif-error {
+  border: 2px solid #701515;
+  color: #701818;
+  background-color: #d69f9f;
+}

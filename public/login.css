@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.main-blob {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 600px;
+  width: 650px;
+  background: rgb(2,0,36);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(2,0,36,1)), color-stop(0%, rgba(19,16,133,1)), to(rgba(0,189,255,1)));
+  background: -o-linear-gradient(left, rgba(2,0,36,1) 0%, rgba(19,16,133,1) 0%, rgba(0,189,255,1) 100%);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,16,133,1) 0%, rgba(0,189,255,1) 100%);
+  border-radius: 65% 35% 72% 28% / 63% 51% 49% 37%;
+  -webkit-animation: blobOut 0.7s ease-in-out forwards;
+          animation: blobOut 0.7s ease-in-out forwards;
+  -webkit-box-shadow: 8px 3px 18px 0px rgba(0,0,0,0.75);
+          box-shadow: 8px 3px 18px 0px rgba(0,0,0,0.75);
+}
+@-webkit-keyframes blobOut {
+  to {
+    border-radius: 25% 75% 15% 85% / 34% 43% 57% 66%;
+  }
+}
+@keyframes blobOut {
+  to {
+    border-radius: 25% 75% 15% 85% / 34% 43% 57% 66%;
+  }
+}
+
+.password {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: inherit;
+      -ms-transform: inherit;
+          transform: inherit;
+  font-size: 2rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+}
+.password::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+.password::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+.password:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+.password::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+.password::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
