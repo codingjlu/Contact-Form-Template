@@ -1,5 +1,4 @@
 # Personal Contact Form Template
-So I made this awesome contact form template with Node.js for your personal contact page!
 
 ### Features:
 - [x] Contact form
@@ -22,7 +21,6 @@ So I made this awesome contact form template with Node.js for your personal cont
 
 
 ### Getting started
-You can test this project by submitting forms and logging in to the admin to view them (please delete submissions after you're done).
 To use it, fork this project and go to `config.js` and change all the info according to the comments, and you're all set to go!!
 
 ### TODO/Coming soon:
